@@ -1,0 +1,29 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "vibration-monitoring", "vibration-monitoring", "{91A064A8-DC0E-99D8-7A97-C0285121483C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhantomLibExample", "vibration-monitoring\PhantomLibExample\PhantomLibExample.csproj", "{50918F3F-9DD3-049B-C153-5D83CCA1E07E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{50918F3F-9DD3-049B-C153-5D83CCA1E07E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50918F3F-9DD3-049B-C153-5D83CCA1E07E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50918F3F-9DD3-049B-C153-5D83CCA1E07E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50918F3F-9DD3-049B-C153-5D83CCA1E07E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{50918F3F-9DD3-049B-C153-5D83CCA1E07E} = {91A064A8-DC0E-99D8-7A97-C0285121483C}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4035E7C7-84AC-4C1B-904E-EC9FE6F1CAC1}
+	EndGlobalSection
+EndGlobal

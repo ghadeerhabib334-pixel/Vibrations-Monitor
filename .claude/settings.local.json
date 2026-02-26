@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pip install:*)",
+      "Bash(python -m pip install:*)",
+      "Bash(python3:*)",
+      "Bash(py -m pip install:*)",
+      "Bash(py create_portfolio_doc.py:*)",
+      "WebFetch(domain:github.com)",
+      "Bash(git clone:*)",
+      "Bash(dotnet:*)",
+      "Bash(dir:*)",
+      "Bash(ls:*)",
+      "Bash(pkill:*)",
+      "Bash(start bin/Debug/net8.0-windows/PhantomLibWFExample.exe)",
+      "Bash(start vibration-monitoring/PhantomLibWFExample/bin/Debug/net8.0-windows/PhantomLibWFExample.exe)",
+      "Bash(npm install)",
+      "Bash(npm audit:*)",
+      "Bash(timeout 3 node:*)",
+      "Bash(node test-mcp.js:*)",
+      "Bash(start index.html)",
+      "Bash(node test-running-server.js:*)",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)"
+    ]
+  }
+}

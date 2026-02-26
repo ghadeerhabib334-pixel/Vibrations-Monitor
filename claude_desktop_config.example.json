@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "vibration-sensor": {
+      "command": "node",
+      "args": [
+        "C:\\Users\\user\\Desktop\\Vibration sensor\\mcp-server.js"
+      ],
+      "env": {},
+      "disabled": false
+    }
+  }
+}
