@@ -60,12 +60,20 @@
             background-color: rgba(0, 0, 0, 0.05) !important;
         }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            transition: background 0.3s ease, color 0.3s ease;
-        }
+body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    transition: background 0.3s ease, color 0.3s ease;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+@media (max-width: 640px) {
+    body {
+        padding: 0.75rem;
+    }
+}
 
         .glass-card {
             background: var(--bg-card);
@@ -78,6 +86,18 @@
             position: relative;
             width: 180px;
             height: 180px;
+        }
+
+        @media (max-width: 640px) {
+            .gauge-container {
+                width: 140px;
+                height: 140px;
+            }
+            
+            .gauge-container[style*="200px"] {
+                width: 160px !important;
+                height: 160px !important;
+            }
         }
 
         .gauge-bg {
@@ -111,7 +131,13 @@
 
         .chart-container {
             position: relative;
-            height: 250px;
+            height: 200px;
+        }
+
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 250px;
+            }
         }
 
         .modal-overlay {
@@ -209,8 +235,8 @@
  </head>
 <body class="min-h-screen p-4 md:p-6">
     <!-- Settings Modal -->
-    <div id="settingsModal" class="fixed inset-0 z-50 flex items-center justify-center modal-overlay hidden">
-        <div class="glass-card rounded-2xl p-6 w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto">
+    <div id="settingsModal" class="fixed inset-0 z-50 flex items-center justify-center modal-overlay hidden p-4">
+        <div class="glass-card rounded-2xl p-4 md:p-6 w-full max-w-lg mx-2 md:mx-4 max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-xl font-bold text-white flex items-center gap-2">
                     <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -276,7 +302,7 @@
                 <div class="flex gap-2">
                     <input type="text" id="newTopic"
                         class="flex-1 bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-white placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
-                        placeholder="phantom/+/+/stateupdate"
+                        placeholder="Primatronic/Vibrations"
                         onkeypress="if(event.key === 'Enter') addTopic()">
                     <button onclick="addTopic()"
                         class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors flex items-center gap-1">
@@ -314,93 +340,73 @@
     </div>
 
     <!-- Header -->
-    <header class="mb-6">
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <div class="flex items-center gap-4">
+    <header class="mb-4 md:mb-6">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 md:gap-4">
+            <div class="flex items-center gap-2 md:gap-4">
                 <!-- Logo -->
-                <img src="Logo.png" alt="Primatronic Logo" class="h-12 w-auto">
+                <img src="Logo.png" alt="Primatronic Logo" class="h-10 md:h-12 w-auto">
                 <div>
                     <div class="flex items-center gap-2">
-                        <h1 class="text-2xl md:text-3xl font-bold theme-text-primary">
+                        <h1 class="text-xl md:text-2xl lg:text-3xl font-bold theme-text-primary">
                             Primatronic SRL
                         </h1>
                     </div>
-                    <p class="theme-text-secondary mt-1">Vibration & Temperature Monitor - Erbessd Phantom</p>
+                    <p class="theme-text-secondary mt-1 text-xs md:text-sm">Vibration & Temperature Monitor - Erbessd Phantom</p>
                 </div>
             </div>
-            <div class="flex items-center gap-3 flex-wrap">
+            <div class="flex items-center gap-2 md:gap-3 flex-wrap">
 
                 <!-- Theme Toggle Button -->
                 <button onclick="toggleTheme()" id="themeToggle"
-                    class="flex items-center gap-2 px-4 py-2 rounded-full glass-card hover:bg-gray-700/50 transition-colors theme-toggle">
-                    <svg id="moonIcon" class="w-5 h-5 theme-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    class="flex items-center gap-1 md:gap-2 px-3 md:px-4 py-2 rounded-full glass-card hover:bg-gray-700/50 transition-colors theme-toggle">
+                    <svg id="moonIcon" class="w-4 h-4 md:w-5 md:h-5 theme-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
                     </svg>
-                    <svg id="sunIcon" class="w-5 h-5 theme-text-secondary hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg id="sunIcon" class="w-4 h-4 md:w-5 md:h-5 theme-text-secondary hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
                     </svg>
-                    <span class="text-sm font-medium theme-text-secondary">Dark Mode</span>
+                    <span class="text-xs md:text-sm font-medium theme-text-secondary hidden sm:inline">Dark Mode</span>
                 </button>
 
                 <!-- Settings Button -->
                 <button onclick="openSettings()"
-                    class="flex items-center gap-2 px-4 py-2 rounded-full glass-card hover:bg-gray-700/50 transition-colors">
-                    <svg class="w-5 h-5 theme-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    class="flex items-center gap-1 md:gap-2 px-3 md:px-4 py-2 rounded-full glass-card hover:bg-gray-700/50 transition-colors">
+                    <svg class="w-4 h-4 md:w-5 md:h-5 theme-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                     </svg>
-                    <span class="text-sm font-medium">Settings</span>
+                    <span class="text-xs md:text-sm font-medium hidden sm:inline">Settings</span>
                 </button>
 
                 <!-- Connect/Disconnect Button -->
                 <button id="connectBtn" onclick="toggleConnection()"
-                    class="flex items-center gap-2 px-4 py-2 rounded-full bg-green-600 hover:bg-green-700 transition-colors">
-                    <svg id="connectIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    class="flex items-center gap-1 md:gap-2 px-3 md:px-4 py-2 rounded-full bg-green-600 hover:bg-green-700 transition-colors">
+                    <svg id="connectIcon" class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                     </svg>
-                    <span id="connectText" class="text-sm font-medium">Connect</span>
+                    <span id="connectText" class="text-xs md:text-sm font-medium">Connect</span>
                 </button>
 
                 <!-- Connection Status -->
-                <div id="connectionStatus" class="flex items-center gap-2 px-4 py-2 rounded-full glass-card">
-                    <span id="statusDot" class="w-3 h-3 rounded-full bg-red-500 status-dot"></span>
-                    <span id="statusText" class="text-sm font-medium">Disconnected</span>
+                <div id="connectionStatus" class="flex items-center gap-1 md:gap-2 px-3 md:px-4 py-2 rounded-full glass-card">
+                    <span id="statusDot" class="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-red-500 status-dot"></span>
+                    <span id="statusText" class="text-xs md:text-sm font-medium hidden sm:inline">Disconnected</span>
                 </div>
 
                 <!-- Last Seen -->
-                <div class="flex items-center gap-2 px-4 py-2 rounded-full glass-card">
-                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="flex items-center gap-1 md:gap-2 px-3 md:px-4 py-2 rounded-full glass-card">
+                    <svg class="w-3.5 h-3.5 md:w-4 md:h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
-                    <span id="lastSeen" class="text-sm text-gray-400">No data yet</span>
+                    <span id="lastSeen" class="text-xs md:text-sm text-gray-400">No data yet</span>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- Current Broker Info -->
-    <div id="brokerInfo" class="glass-card rounded-xl p-4 mb-6">
-        <div class="flex flex-wrap items-center gap-4 text-sm">
-            <div class="flex items-center gap-2">
-                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2"/>
-                </svg>
-                <span class="text-gray-400">Broker:</span>
-                <span id="currentBroker" class="text-white font-mono">Not configured</span>
-            </div>
-            <div class="flex items-center gap-2">
-                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
-                </svg>
-                <span class="text-gray-400">Topics:</span>
-                <span id="currentTopics" class="text-blue-400">None</span>
-            </div>
-        </div>
-    </div>
-
     <!-- Device Info Bar -->
-    <div id="deviceInfo" class="glass-card rounded-xl p-4 mb-6 hidden">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+    <div id="deviceInfo" class="glass-card rounded-xl p-3 md:p-4 mb-4 md:mb-6 hidden">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4 text-xs md:text-sm">
             <div>
                 <span class="text-gray-400">Device Name:</span>
                 <span id="friendlyName" class="ml-2 text-white font-medium">-</span>
@@ -421,16 +427,16 @@
     </div>
 
     <!-- Main Grid -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6 mb-4 md:mb-6">
         <!-- Vibration Gauges -->
-        <div class="glass-card rounded-xl p-6">
+        <div class="glass-card rounded-xl p-4 md:p-6">
             <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
                 <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
                 </svg>
                 Vibration RMS (mm/s)
             </h2>
-            <div class="flex flex-wrap justify-center gap-4">
+            <div class="flex flex-wrap justify-center gap-2 md:gap-4">
                 <!-- X-Axis Gauge -->
                 <div class="text-center">
                     <div class="gauge-container mx-auto">
@@ -493,7 +499,7 @@
         </div>
 
         <!-- Temperature Gauge -->
-        <div class="glass-card rounded-xl p-6">
+        <div class="glass-card rounded-xl p-4 md:p-6">
             <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
                 <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
@@ -538,7 +544,7 @@
         </div>
 
         <!-- Battery & Signal -->
-        <div class="glass-card rounded-xl p-6">
+        <div class="glass-card rounded-xl p-4 md:p-6">
             <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
                 <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
@@ -602,9 +608,9 @@
     </div>
 
     <!-- Charts Section -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 mb-4 md:mb-6">
         <!-- Vibration Trend Chart -->
-        <div class="glass-card rounded-xl p-6">
+        <div class="glass-card rounded-xl p-4 md:p-6">
             <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
                 <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/>
@@ -617,7 +623,7 @@
         </div>
 
         <!-- Temperature Trend Chart -->
-        <div class="glass-card rounded-xl p-6">
+        <div class="glass-card rounded-xl p-4 md:p-6">
             <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
                 <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/>
@@ -631,7 +637,7 @@
     </div>
 
     <!-- Raw Messages Log -->
-    <div class="glass-card rounded-xl p-6">
+    <div class="glass-card rounded-xl p-4 md:p-6">
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-lg font-semibold flex items-center gap-2">
                 <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -643,7 +649,7 @@
                 Clear Log
             </button>
         </div>
-        <div id="messageLog" class="theme-log rounded-lg p-4 h-48 overflow-y-auto font-mono text-xs theme-text-secondary space-y-1">
+        <div id="messageLog" class="theme-log rounded-lg p-3 md:p-4 h-40 md:h-48 overflow-y-auto font-mono text-xs theme-text-secondary space-y-1">
             <p class="theme-text-muted">Waiting for messages...</p>
         </div>
     </div>
@@ -738,7 +744,7 @@
             protocol: 'wss',
             username: 'ghadeer',
             password: 'GH123abc',
-            topics: ['phantom/+/+/stateupdate']
+            topics: ['Primatronic/Vibrations']
         };
 
         // ISO 10816 Thresholds (mm/s)
@@ -782,12 +788,11 @@
                 try {
                     currentConfig = JSON.parse(saved);
                     pendingTopics = [...currentConfig.topics];
-                } catch (e) {
-                    console.error('Failed to load config:', e);
-                }
+            } catch (e) {
+                console.error('Failed to load config:', e);
             }
-            updateBrokerInfoDisplay();
         }
+    }
 
         function saveConfig() {
             localStorage.setItem('mqttConfig', JSON.stringify(currentConfig));
@@ -871,7 +876,6 @@
             };
 
             saveConfig();
-            updateBrokerInfoDisplay();
             closeSettings();
 
             // Disconnect if already connected, then reconnect
@@ -879,13 +883,6 @@
                 client.end(true);
             }
             connectMQTT();
-        }
-
-        function updateBrokerInfoDisplay() {
-            document.getElementById('currentBroker').textContent =
-                `${currentConfig.protocol}://${currentConfig.host}:${currentConfig.port}`;
-            document.getElementById('currentTopics').textContent =
-                currentConfig.topics.length > 0 ? currentConfig.topics.join(', ') : 'None';
         }
 
         // =============================================
@@ -1486,7 +1483,6 @@
                             }
                         });
                         saveConfig();
-                        updateBrokerInfoDisplay();
                         // Reconnect with new settings
                         if (client) {
                             client.end(true);
@@ -1592,7 +1588,6 @@
             // Show settings on first load if not configured
             if (!localStorage.getItem('mqttConfig')) {
                 // Use defaults but don't auto-connect
-                updateBrokerInfoDisplay();
             }
 
             // Connect to MCP server
