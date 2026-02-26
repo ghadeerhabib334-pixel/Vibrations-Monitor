@@ -12,13 +12,46 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
         :root {
+            /* Primatronic Design System Colors */
+            --color-background: #ffffff;
+            --color-surface: #f9fafb;
+            --color-foreground: #0a0a0a;
+            --color-muted: #6b7280;
+            --color-ring: rgba(0, 0, 0, 0.08);
+            --color-border: rgba(0, 0, 0, 0.05);
+            
+            /* Component Colors */
+            --bg-primary: var(--color-background);
+            --bg-card: #ffffff;
+            --bg-card-border: var(--color-ring);
+            --bg-input: #ffffff;
+            --bg-input-border: var(--color-border);
+            --bg-log: #ffffff;
+            --text-primary: var(--color-foreground);
+            --text-secondary: var(--color-muted);
+            --text-muted: var(--color-muted);
+            --gauge-bg: #e5e7eb;
+            --chart-grid: rgba(0, 0, 0, 0.08);
+            --chart-text: var(--color-muted);
+            --border-color: var(--color-border);
+        }
+
+        .dark-theme,
+        html.dark-theme body {
+            --color-background: #0f172a;
+            --color-surface: #1e293b;
+            --color-foreground: #f1f5f9;
+            --color-muted: #94a3b8;
+            --color-ring: rgba(148, 163, 184, 0.1);
+            --color-border: rgba(148, 163, 184, 0.1);
+            
             --bg-primary: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
             --bg-card: rgba(30, 41, 59, 0.8);
-            --bg-card-border: rgba(148, 163, 184, 0.1);
+            --bg-card-border: var(--color-ring);
             --bg-input: #1e293b;
             --bg-input-border: #475569;
             --bg-log: #0f172a;
-            --text-primary: #f1f5f9;
+            --text-primary: var(--color-foreground);
             --text-secondary: #94a3b8;
             --text-muted: #64748b;
             --gauge-bg: #334155;
@@ -27,65 +60,56 @@
             --border-color: #334155;
         }
 
-        .light-theme,
-        html.light-theme body {
-            --bg-primary: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
-            --bg-card: rgba(255, 255, 255, 0.95);
-            --bg-card-border: rgba(0, 0, 0, 0.08);
-            --bg-input: #ffffff;
-            --bg-input-border: #d1d5db;
-            --bg-log: #ffffff;
-            --text-primary: #111827;
-            --text-secondary: #374151;
-            --text-muted: #6b7280;
-            --gauge-bg: #e5e7eb;
-            --chart-grid: rgba(0, 0, 0, 0.08);
-            --chart-text: #374151;
-            --border-color: #e5e7eb;
+        html.dark-theme .modal-overlay {
+            background: rgba(0, 0, 0, 0.7);
         }
 
-        html.light-theme .modal-overlay {
+        .modal-overlay {
             background: rgba(0, 0, 0, 0.4);
         }
 
-        /* Light theme card shadows */
-        .light-theme .glass-card,
-        html.light-theme .glass-card {
+        /* Primatronic card style */
+        .glass-card {
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
         }
 
-        /* Light theme hover states */
-        .light-theme .hover\:bg-gray-700\/50:hover,
-        html.light-theme .hover\:bg-gray-700\/50:hover {
-            background-color: rgba(0, 0, 0, 0.05) !important;
+        .dark-theme .glass-card {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
         }
 
 body {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     background: var(--bg-primary);
     color: var(--text-primary);
     transition: background 0.3s ease, color 0.3s ease;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    line-height: 1.5;
+    min-height: 100vh;
 }
 
 @media (max-width: 640px) {
     body {
-        padding: 0.75rem;
+        padding: 1rem;
     }
 }
 
         .glass-card {
             background: var(--bg-card);
-            backdrop-filter: blur(10px);
             border: 1px solid var(--bg-card-border);
-            transition: background 0.3s ease, border-color 0.3s ease;
+            border-radius: 1rem; /* rounded-2xl */
+            transition: all 0.3s ease;
+        }
+        
+        .glass-card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
         }
 
         .gauge-container {
             position: relative;
             width: 180px;
             height: 180px;
+            flex-shrink: 0;
         }
 
         @media (max-width: 640px) {
@@ -197,6 +221,23 @@ body {
             border-color: var(--border-color);
         }
 
+        /* Primatronic specific styles */
+        .border-ring {
+            border-color: var(--color-ring);
+        }
+
+        .bg-foreground {
+            background-color: var(--color-foreground);
+        }
+
+        .bg-surface {
+            background-color: var(--color-surface);
+        }
+
+        .hover\:bg-surface:hover {
+            background-color: var(--color-surface);
+        }
+
         /* Theme toggle button animation */
         .theme-toggle {
             transition: transform 0.3s ease;
@@ -220,32 +261,25 @@ body {
             transition: none !important;
         }
     </style>
-    <!-- Apply theme immediately to prevent flash -->
+    <!-- Force light theme always -->
     <script>
         (function() {
-            const savedTheme = localStorage.getItem('theme');
-            const isDark = savedTheme ? savedTheme === 'dark' : true; // Default to dark
-            if (isDark) {
-                document.documentElement.classList.remove('light-theme');
-            } else {
-                document.documentElement.classList.add('light-theme');
-            }
+            // Always use light theme
+            document.documentElement.classList.remove('dark-theme');
+            localStorage.setItem('theme', 'light');
         })();
     </script>
  </head>
 <body class="min-h-screen p-4 md:p-6">
     <!-- Settings Modal -->
     <div id="settingsModal" class="fixed inset-0 z-50 flex items-center justify-center modal-overlay hidden p-4">
-        <div class="glass-card rounded-2xl p-4 md:p-6 w-full max-w-lg mx-2 md:mx-4 max-h-[90vh] overflow-y-auto">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-xl font-bold text-white flex items-center gap-2">
-                    <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                    </svg>
-                    MQTT Settings
-                </h2>
-                <button onclick="closeSettings()" class="text-gray-400 hover:text-white transition-colors">
+        <div class="glass-card p-6 md:p-8 w-full max-w-lg mx-2 md:mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-8">
+                <div>
+                    <p class="text-[10px] font-medium uppercase tracking-[0.2em] theme-text-muted mb-2">Configuration</p>
+                    <h2 class="text-xl md:text-2xl font-semibold tracking-tight theme-text-primary">MQTT Settings</h2>
+                </div>
+                <button onclick="closeSettings()" class="theme-text-muted hover:theme-text-primary transition-colors">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
@@ -253,27 +287,27 @@ body {
             </div>
 
             <!-- Broker Settings -->
-            <div class="space-y-4 mb-6">
-                <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wider">Broker Connection</h3>
+            <div class="space-y-4 mb-8">
+                <h3 class="text-xs font-medium uppercase tracking-[0.2em] theme-text-muted mb-4">Broker Connection</h3>
 
                 <div>
-                    <label class="block text-sm text-gray-300 mb-1">Host</label>
+                    <label class="block text-sm font-medium theme-text-primary mb-2">Host</label>
                     <input type="text" id="brokerHost"
-                        class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-white placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+                        class="w-full theme-input border rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-foreground/20"
                         placeholder="broker.hivemq.com">
                 </div>
 
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm text-gray-300 mb-1">Port</label>
+                        <label class="block text-sm font-medium theme-text-primary mb-2">Port</label>
                         <input type="number" id="brokerPort"
-                            class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-white placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+                            class="w-full theme-input border rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-foreground/20"
                             placeholder="8884">
                     </div>
                     <div>
-                        <label class="block text-sm text-gray-300 mb-1">Protocol</label>
+                        <label class="block text-sm font-medium theme-text-primary mb-2">Protocol</label>
                         <select id="brokerProtocol"
-                            class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20">
+                            class="w-full theme-input border rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-foreground/20">
                             <option value="wss">WSS (Secure)</option>
                             <option value="ws">WS (Unsecure)</option>
                         </select>
@@ -281,32 +315,32 @@ body {
                 </div>
 
                 <div>
-                    <label class="block text-sm text-gray-300 mb-1">Username (optional)</label>
+                    <label class="block text-sm font-medium theme-text-primary mb-2">Username (optional)</label>
                     <input type="text" id="brokerUsername"
-                        class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-white placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+                        class="w-full theme-input border rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-foreground/20"
                         placeholder="username">
                 </div>
 
                 <div>
-                    <label class="block text-sm text-gray-300 mb-1">Password (optional)</label>
+                    <label class="block text-sm font-medium theme-text-primary mb-2">Password (optional)</label>
                     <input type="password" id="brokerPassword"
-                        class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-white placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+                        class="w-full theme-input border rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-foreground/20"
                         placeholder="password">
                 </div>
             </div>
 
             <!-- Topic Subscriptions -->
-            <div class="space-y-4 mb-6">
-                <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wider">Topic Subscriptions</h3>
+            <div class="space-y-4 mb-8">
+                <h3 class="text-xs font-medium uppercase tracking-[0.2em] theme-text-muted mb-4">Topic Subscriptions</h3>
 
                 <div class="flex gap-2">
                     <input type="text" id="newTopic"
-                        class="flex-1 bg-gray-800 border border-gray-600 rounded-lg px-4 py-2 text-white placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+                        class="flex-1 theme-input border rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-foreground/20"
                         placeholder="Primatronic/Vibrations"
                         onkeypress="if(event.key === 'Enter') addTopic()">
                     <button onclick="addTopic()"
-                        class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors flex items-center gap-1">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        class="px-4 py-2.5 rounded-full border border-ring bg-white hover:bg-surface transition-all text-sm font-medium flex items-center gap-1">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
                         </svg>
                         Add
@@ -317,22 +351,22 @@ body {
                     <!-- Topics will be added here -->
                 </div>
 
-                <p class="text-xs text-gray-500">
+                <p class="text-xs theme-text-muted">
                     Use + for single-level wildcard, # for multi-level wildcard. Example: sensor/+/data, home/#
                 </p>
             </div>
 
             <!-- Action Buttons -->
-            <div class="flex gap-3 pt-4 border-t border-gray-700">
+            <div class="flex gap-3 pt-6 border-t theme-border">
                 <button onclick="saveAndConnect()"
-                    class="flex-1 px-4 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors flex items-center justify-center gap-2">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    class="flex-1 px-5 py-3 rounded-full bg-foreground hover:opacity-80 text-white font-medium transition-all flex items-center justify-center gap-2 text-sm">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                     </svg>
                     Save & Connect
                 </button>
                 <button onclick="closeSettings()"
-                    class="px-4 py-3 bg-gray-700 hover:bg-gray-600 text-white rounded-lg font-medium transition-colors">
+                    class="px-5 py-3 rounded-full border border-ring bg-white hover:bg-surface font-medium transition-all text-sm">
                     Cancel
                 </button>
             </div>
@@ -340,243 +374,200 @@ body {
     </div>
 
     <!-- Header -->
-    <header class="mb-4 md:mb-6">
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 md:gap-4">
-            <div class="flex items-center gap-2 md:gap-4">
-                <!-- Logo -->
-                <img src="Logo.png" alt="Primatronic Logo" class="h-10 md:h-12 w-auto">
-                <div>
-                    <div class="flex items-center gap-2">
-                        <h1 class="text-xl md:text-2xl lg:text-3xl font-bold theme-text-primary">
+    <header class="mb-6 md:mb-8">
+        <div class="mx-auto max-w-6xl px-6">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <!-- Logo -->
+                    <img src="Logo.png" alt="Primatronic Logo" class="h-10 md:h-12 w-auto">
+                    <div>
+                        <h1 class="text-xl md:text-2xl lg:text-3xl font-bold tracking-tight theme-text-primary">
                             Primatronic SRL
                         </h1>
+                        <p class="theme-text-secondary mt-0.5 text-xs md:text-sm">Vibration & Temperature Monitor</p>
                     </div>
-                    <p class="theme-text-secondary mt-1 text-xs md:text-sm">Vibration & Temperature Monitor - Erbessd Phantom</p>
                 </div>
-            </div>
-            <div class="flex items-center gap-2 md:gap-3 flex-wrap">
+                <div class="flex items-center gap-2 md:gap-3 flex-wrap">
 
-                <!-- Theme Toggle Button -->
-                <button onclick="toggleTheme()" id="themeToggle"
-                    class="flex items-center gap-1 md:gap-2 px-3 md:px-4 py-2 rounded-full glass-card hover:bg-gray-700/50 transition-colors theme-toggle">
-                    <svg id="moonIcon" class="w-4 h-4 md:w-5 md:h-5 theme-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
-                    </svg>
-                    <svg id="sunIcon" class="w-4 h-4 md:w-5 md:h-5 theme-text-secondary hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
-                    </svg>
-                    <span class="text-xs md:text-sm font-medium theme-text-secondary hidden sm:inline">Dark Mode</span>
-                </button>
+                    <!-- Settings Button -->
+                    <button onclick="openSettings()"
+                        class="flex items-center gap-2 px-4 py-2 rounded-full border border-ring bg-white hover:bg-surface transition-all text-sm font-medium">
+                        <svg class="w-4 h-4 theme-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        </svg>
+                        <span class="text-xs md:text-sm font-medium hidden sm:inline">Settings</span>
+                    </button>
 
-                <!-- Settings Button -->
-                <button onclick="openSettings()"
-                    class="flex items-center gap-1 md:gap-2 px-3 md:px-4 py-2 rounded-full glass-card hover:bg-gray-700/50 transition-colors">
-                    <svg class="w-4 h-4 md:w-5 md:h-5 theme-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                    </svg>
-                    <span class="text-xs md:text-sm font-medium hidden sm:inline">Settings</span>
-                </button>
+                    <!-- Connect/Disconnect Button -->
+                    <button id="connectBtn" onclick="toggleConnection()"
+                        class="flex items-center gap-2 px-5 py-2 rounded-full bg-foreground hover:opacity-80 transition-all text-sm font-medium text-white">
+                        <svg id="connectIcon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                        <span id="connectText" class="text-xs md:text-sm font-medium">Connect</span>
+                    </button>
 
-                <!-- Connect/Disconnect Button -->
-                <button id="connectBtn" onclick="toggleConnection()"
-                    class="flex items-center gap-1 md:gap-2 px-3 md:px-4 py-2 rounded-full bg-green-600 hover:bg-green-700 transition-colors">
-                    <svg id="connectIcon" class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                    </svg>
-                    <span id="connectText" class="text-xs md:text-sm font-medium">Connect</span>
-                </button>
+                    <!-- Connection Status -->
+                    <div id="connectionStatus" class="flex items-center gap-2 px-4 py-2 rounded-full border border-ring bg-white">
+                        <span id="statusDot" class="w-2.5 h-2.5 rounded-full bg-gray-400 status-dot"></span>
+                        <span id="statusText" class="text-xs md:text-sm font-medium theme-text-muted hidden sm:inline">Disconnected</span>
+                    </div>
 
-                <!-- Connection Status -->
-                <div id="connectionStatus" class="flex items-center gap-1 md:gap-2 px-3 md:px-4 py-2 rounded-full glass-card">
-                    <span id="statusDot" class="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-red-500 status-dot"></span>
-                    <span id="statusText" class="text-xs md:text-sm font-medium hidden sm:inline">Disconnected</span>
-                </div>
-
-                <!-- Last Seen -->
-                <div class="flex items-center gap-1 md:gap-2 px-3 md:px-4 py-2 rounded-full glass-card">
-                    <svg class="w-3.5 h-3.5 md:w-4 md:h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                    <span id="lastSeen" class="text-xs md:text-sm text-gray-400">No data yet</span>
+                    <!-- Last Seen -->
+                    <div class="flex items-center gap-2 px-4 py-2 rounded-full border border-ring bg-white">
+                        <svg class="w-3.5 h-3.5 theme-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <span id="lastSeen" class="text-xs md:text-sm theme-text-muted">No data yet</span>
+                    </div>
                 </div>
             </div>
         </div>
     </header>
 
     <!-- Device Info Bar -->
-    <div id="deviceInfo" class="glass-card rounded-xl p-3 md:p-4 mb-4 md:mb-6 hidden">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4 text-xs md:text-sm">
-            <div>
-                <span class="text-gray-400">Device Name:</span>
-                <span id="friendlyName" class="ml-2 text-white font-medium">-</span>
-            </div>
-            <div>
-                <span class="text-gray-400">Phantom Code:</span>
-                <span id="phantomCode" class="ml-2 text-white font-mono">-</span>
-            </div>
-            <div>
-                <span class="text-gray-400">Gateway Serial:</span>
-                <span id="gwSerial" class="ml-2 text-white font-mono">-</span>
-            </div>
-            <div>
-                <span class="text-gray-400">Update Interval:</span>
-                <span id="updateInterval" class="ml-2 text-white">-</span>
+    <div id="deviceInfo" class="mx-auto max-w-6xl px-6 mb-6 hidden">
+        <div class="glass-card p-4 md:p-6">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 text-sm">
+                <div>
+                    <span class="text-xs font-medium uppercase tracking-wider theme-text-muted block mb-1">Device Name</span>
+                    <span id="friendlyName" class="theme-text-primary font-semibold">-</span>
+                </div>
+                <div>
+                    <span class="text-xs font-medium uppercase tracking-wider theme-text-muted block mb-1">Phantom Code</span>
+                    <span id="phantomCode" class="theme-text-primary font-mono">-</span>
+                </div>
+                <div>
+                    <span class="text-xs font-medium uppercase tracking-wider theme-text-muted block mb-1">Gateway Serial</span>
+                    <span id="gwSerial" class="theme-text-primary font-mono">-</span>
+                </div>
+                <div>
+                    <span class="text-xs font-medium uppercase tracking-wider theme-text-muted block mb-1">Update Interval</span>
+                    <span id="updateInterval" class="theme-text-primary font-semibold">-</span>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Main Grid -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6 mb-4 md:mb-6">
-        <!-- Vibration Gauges -->
-        <div class="glass-card rounded-xl p-4 md:p-6">
-            <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
-                <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-                </svg>
-                Vibration RMS (mm/s)
-            </h2>
-            <div class="flex flex-wrap justify-center gap-2 md:gap-4">
-                <!-- X-Axis Gauge -->
-                <div class="text-center">
-                    <div class="gauge-container mx-auto">
-                        <svg viewBox="0 0 180 180" class="w-full h-full">
-                            <circle cx="90" cy="90" r="70" class="gauge-bg"/>
-                            <circle id="gaugeX" cx="90" cy="90" r="70" class="gauge-fill"
-                                stroke="#22c55e" stroke-dasharray="439.82" stroke-dashoffset="439.82"/>
-                            <text x="90" y="85" text-anchor="middle" class="fill-white text-2xl font-bold">
-                                <tspan id="valueX">0.00</tspan>
-                            </text>
-                            <text x="90" y="105" text-anchor="middle" class="fill-gray-400 text-xs">mm/s</text>
-                            <text x="90" y="125" text-anchor="middle" class="fill-blue-400 text-sm font-semibold">X-Axis</text>
-                        </svg>
+    <!-- Vibration Monitoring Section (Full Width) -->
+    <div class="mx-auto max-w-6xl px-6 mb-6">
+        <div class="glass-card p-6 md:p-8">
+            <p class="text-[10px] font-medium uppercase tracking-[0.2em] theme-text-muted mb-2">VIBRATION MONITORING</p>
+            <h2 class="text-xl md:text-2xl font-semibold mb-6 tracking-tight theme-text-primary">Vibration RMS (mm/s)</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                <!-- ISO 10816 Legend (Left Side) -->
+                <div>
+                    <p class="text-xs font-semibold theme-text-primary mb-4 uppercase tracking-wider">ISO 10816 SEVERITY ZONES</p>
+                    <div class="space-y-3 text-sm theme-text-muted">
+                        <div class="flex items-center gap-2">
+                            <span class="w-3 h-3 rounded-full bg-green-500 flex-shrink-0"></span>
+                            <span><strong class="theme-text-primary">Good:</strong> (&lt;1.1)</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="w-3 h-3 rounded-full bg-orange-500 flex-shrink-0"></span>
+                            <span><strong class="theme-text-primary">Satisfactory:</strong> (1.1-2.3)</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="w-3 h-3 rounded-full bg-orange-600 flex-shrink-0"></span>
+                            <span><strong class="theme-text-primary">Unsatisfactory:</strong> (2.3-7.1)</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="w-3 h-3 rounded-full bg-red-500 flex-shrink-0"></span>
+                            <span><strong class="theme-text-primary">Danger:</strong> (&gt;7.1)</span>
+                        </div>
                     </div>
-                    <div id="statusX" class="mt-2 text-xs font-medium px-3 py-1 rounded-full bg-green-500/20 text-green-400 inline-block">Good</div>
                 </div>
-                <!-- Y-Axis Gauge -->
-                <div class="text-center">
-                    <div class="gauge-container mx-auto">
-                        <svg viewBox="0 0 180 180" class="w-full h-full">
-                            <circle cx="90" cy="90" r="70" class="gauge-bg"/>
-                            <circle id="gaugeY" cx="90" cy="90" r="70" class="gauge-fill"
-                                stroke="#22c55e" stroke-dasharray="439.82" stroke-dashoffset="439.82"/>
-                            <text x="90" y="85" text-anchor="middle" class="fill-white text-2xl font-bold">
-                                <tspan id="valueY">0.00</tspan>
-                            </text>
-                            <text x="90" y="105" text-anchor="middle" class="fill-gray-400 text-xs">mm/s</text>
-                            <text x="90" y="125" text-anchor="middle" class="fill-green-400 text-sm font-semibold">Y-Axis</text>
-                        </svg>
-                    </div>
-                    <div id="statusY" class="mt-2 text-xs font-medium px-3 py-1 rounded-full bg-green-500/20 text-green-400 inline-block">Good</div>
-                </div>
-                <!-- Z-Axis Gauge -->
-                <div class="text-center">
-                    <div class="gauge-container mx-auto">
-                        <svg viewBox="0 0 180 180" class="w-full h-full">
-                            <circle cx="90" cy="90" r="70" class="gauge-bg"/>
-                            <circle id="gaugeZ" cx="90" cy="90" r="70" class="gauge-fill"
-                                stroke="#22c55e" stroke-dasharray="439.82" stroke-dashoffset="439.82"/>
-                            <text x="90" y="85" text-anchor="middle" class="fill-white text-2xl font-bold">
-                                <tspan id="valueZ">0.00</tspan>
-                            </text>
-                            <text x="90" y="105" text-anchor="middle" class="fill-gray-400 text-xs">mm/s</text>
-                            <text x="90" y="125" text-anchor="middle" class="fill-purple-400 text-sm font-semibold">Z-Axis</text>
-                        </svg>
-                    </div>
-                    <div id="statusZ" class="mt-2 text-xs font-medium px-3 py-1 rounded-full bg-green-500/20 text-green-400 inline-block">Good</div>
-                </div>
-            </div>
-            <!-- ISO 10816 Legend -->
-            <div class="mt-6 pt-4 border-t border-gray-700">
-                <p class="text-xs text-gray-400 mb-2">ISO 10816 Severity Zones:</p>
-                <div class="flex flex-wrap gap-2 text-xs">
-                    <span class="flex items-center gap-1"><span class="w-3 h-3 rounded bg-green-500"></span> Good (&lt;1.1)</span>
-                    <span class="flex items-center gap-1"><span class="w-3 h-3 rounded bg-yellow-500"></span> Satisfactory (1.1-2.8)</span>
-                    <span class="flex items-center gap-1"><span class="w-3 h-3 rounded bg-orange-500"></span> Unsatisfactory (2.8-7.1)</span>
-                    <span class="flex items-center gap-1"><span class="w-3 h-3 rounded bg-red-500"></span> Danger (&gt;7.1)</span>
-                </div>
-            </div>
-        </div>
 
-        <!-- Temperature Gauge -->
-        <div class="glass-card rounded-xl p-4 md:p-6">
-            <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
-                <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-                </svg>
-                Temperature
-            </h2>
-            <div class="flex justify-center">
-                <div class="text-center">
-                    <div class="gauge-container mx-auto" style="width: 200px; height: 200px;">
-                        <svg viewBox="0 0 200 200" class="w-full h-full">
-                            <defs>
-                                <linearGradient id="tempGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                    <stop offset="0%" style="stop-color:#3b82f6"/>
-                                    <stop offset="50%" style="stop-color:#22c55e"/>
-                                    <stop offset="100%" style="stop-color:#ef4444"/>
-                                </linearGradient>
-                            </defs>
-                            <circle cx="100" cy="100" r="80" fill="none" stroke="#334155" stroke-width="14"/>
-                            <circle id="tempGauge" cx="100" cy="100" r="80" fill="none"
-                                stroke="url(#tempGradient)" stroke-width="14" stroke-linecap="round"
-                                stroke-dasharray="502.65" stroke-dashoffset="502.65"
-                                style="transform: rotate(-90deg); transform-origin: center; transition: stroke-dashoffset 0.5s ease;"/>
-                            <text x="100" y="90" text-anchor="middle" class="fill-white text-4xl font-bold">
-                                <tspan id="tempValue">0.0</tspan>
-                            </text>
-                            <text x="100" y="115" text-anchor="middle" class="fill-gray-400 text-sm">°C</text>
-                            <text x="100" y="140" text-anchor="middle" class="fill-red-400 text-xs font-medium">Machine Temp</text>
-                        </svg>
+                <!-- Gauges (Right Side) - X, Y, Z in horizontal row -->
+                <div class="flex justify-center md:justify-end gap-4 md:gap-6 flex-nowrap items-start">
+                    <!-- X-Axis Gauge -->
+                    <div class="text-center flex-shrink-0">
+                        <div class="gauge-container mx-auto">
+                            <svg viewBox="0 0 180 180" class="w-full h-full">
+                                <circle cx="90" cy="90" r="70" class="gauge-bg"/>
+                                <circle id="gaugeX" cx="90" cy="90" r="70" class="gauge-fill"
+                                    stroke="#22c55e" stroke-dasharray="439.82" stroke-dashoffset="439.82"/>
+                                <text x="90" y="85" text-anchor="middle" class="fill-foreground text-2xl font-bold" style="fill: #0a0a0a;">
+                                    <tspan id="valueX">0.00</tspan>
+                                </text>
+                                <text x="90" y="105" text-anchor="middle" class="text-xs" style="fill: #6b7280;">mm/s</text>
+                                <text x="90" y="125" text-anchor="middle" class="text-sm font-semibold" style="fill: #3b82f6;">X-Axis</text>
+                            </svg>
+                        </div>
+                        <div id="statusX" class="mt-2 text-xs font-medium px-3 py-1 rounded-full bg-green-500/20 text-green-400 inline-block">Good</div>
                     </div>
-                    <div class="mt-4 flex justify-center gap-8 text-sm">
-                        <div class="text-center">
-                            <span class="text-gray-400 block">Min</span>
-                            <span id="tempMin" class="text-blue-400 font-semibold">-°C</span>
+                    <!-- Y-Axis Gauge -->
+                    <div class="text-center flex-shrink-0">
+                        <div class="gauge-container mx-auto">
+                            <svg viewBox="0 0 180 180" class="w-full h-full">
+                                <circle cx="90" cy="90" r="70" class="gauge-bg"/>
+                                <circle id="gaugeY" cx="90" cy="90" r="70" class="gauge-fill"
+                                    stroke="#22c55e" stroke-dasharray="439.82" stroke-dashoffset="439.82"/>
+                                <text x="90" y="85" text-anchor="middle" class="fill-foreground text-2xl font-bold" style="fill: #0a0a0a;">
+                                    <tspan id="valueY">0.00</tspan>
+                                </text>
+                                <text x="90" y="105" text-anchor="middle" class="text-xs" style="fill: #6b7280;">mm/s</text>
+                                <text x="90" y="125" text-anchor="middle" class="text-sm font-semibold" style="fill: #22c55e;">Y-Axis</text>
+                            </svg>
                         </div>
-                        <div class="text-center">
-                            <span class="text-gray-400 block">Max</span>
-                            <span id="tempMax" class="text-red-400 font-semibold">-°C</span>
+                        <div id="statusY" class="mt-2 text-xs font-medium px-3 py-1 rounded-full bg-green-500/20 text-green-400 inline-block">Good</div>
+                    </div>
+                    <!-- Z-Axis Gauge -->
+                    <div class="text-center flex-shrink-0">
+                        <div class="gauge-container mx-auto">
+                            <svg viewBox="0 0 180 180" class="w-full h-full">
+                                <circle cx="90" cy="90" r="70" class="gauge-bg"/>
+                                <circle id="gaugeZ" cx="90" cy="90" r="70" class="gauge-fill"
+                                    stroke="#22c55e" stroke-dasharray="439.82" stroke-dashoffset="439.82"/>
+                                <text x="90" y="85" text-anchor="middle" class="fill-foreground text-2xl font-bold" style="fill: #0a0a0a;">
+                                    <tspan id="valueZ">0.00</tspan>
+                                </text>
+                                <text x="90" y="105" text-anchor="middle" class="text-xs" style="fill: #6b7280;">mm/s</text>
+                                <text x="90" y="125" text-anchor="middle" class="text-sm font-semibold" style="fill: #a855f7;">Z-Axis</text>
+                            </svg>
                         </div>
+                        <div id="statusZ" class="mt-2 text-xs font-medium px-3 py-1 rounded-full bg-green-500/20 text-green-400 inline-block">Good</div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Battery & Signal -->
-        <div class="glass-card rounded-xl p-4 md:p-6">
-            <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
-                <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                </svg>
-                System Health
-            </h2>
+    <!-- System Health & Temperature Section (Two Columns) -->
+    <div class="mx-auto max-w-6xl px-6 mb-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- System Health (Left Column) -->
+            <div class="glass-card p-6 md:p-8">
+                <p class="text-[10px] font-medium uppercase tracking-[0.2em] theme-text-muted mb-2">SYSTEM STATUS</p>
+                <h2 class="text-xl md:text-2xl font-semibold mb-6 tracking-tight theme-text-primary">System Health</h2>
 
-            <!-- Battery -->
-            <div class="mb-6">
-                <div class="flex justify-between items-center mb-2">
-                    <span class="text-gray-400">Battery</span>
-                    <span id="batteryValue" class="text-white font-semibold">-V</span>
-                </div>
-                <div class="relative h-8 bg-gray-700 rounded-lg overflow-hidden">
-                    <div id="batteryBar" class="absolute left-0 top-0 h-full bg-gradient-to-r from-green-500 to-green-400 transition-all duration-500" style="width: 0%"></div>
-                    <div class="absolute right-0 top-0 h-full w-2 bg-gray-600 rounded-r"></div>
-                    <div class="absolute inset-0 flex items-center justify-center">
-                        <span id="batteryPercent" class="text-white text-sm font-medium drop-shadow">--%</span>
+                <!-- Battery -->
+                <div class="mb-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="theme-text-muted text-sm">Battery</span>
+                        <span id="batteryValue" class="theme-text-primary font-semibold">-V</span>
+                    </div>
+                    <div class="relative h-8 bg-surface rounded-lg overflow-hidden border border-ring">
+                        <div id="batteryBar" class="absolute left-0 top-0 h-full bg-gradient-to-r from-green-500 to-green-400 transition-all duration-500" style="width: 0%"></div>
+                        <div class="absolute right-0 top-0 h-full w-2 bg-foreground/10 rounded-r"></div>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <span id="batteryPercent" class="theme-text-primary text-sm font-medium">--%</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between text-xs theme-text-muted mt-1">
+                        <span>2.0V</span>
+                        <span>3.6V</span>
                     </div>
                 </div>
-                <div class="flex justify-between text-xs text-gray-500 mt-1">
-                    <span>2.0V</span>
-                    <span>3.6V</span>
-                </div>
-            </div>
 
-            <!-- Signal Strength -->
-            <div class="mb-6">
-                <div class="flex justify-between items-center mb-2">
-                    <span class="text-gray-400">Signal Strength (RSSI)</span>
-                    <span id="rssiValue" class="text-white font-semibold">- dBm</span>
-                </div>
+                <!-- Signal Strength -->
+                <div class="mb-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="theme-text-muted text-sm">Signal Strength (RSSI)</span>
+                        <span id="rssiValue" class="theme-text-primary font-semibold">- dBm</span>
+                    </div>
                 <div class="flex items-end gap-1 h-10">
                     <div id="signal1" class="signal-bar w-3 h-2 bg-gray-600 rounded-sm"></div>
                     <div id="signal2" class="signal-bar w-3 h-4 bg-gray-600 rounded-sm"></div>
@@ -584,23 +575,58 @@ body {
                     <div id="signal4" class="signal-bar w-3 h-8 bg-gray-600 rounded-sm"></div>
                     <div id="signal5" class="signal-bar w-3 h-10 bg-gray-600 rounded-sm"></div>
                 </div>
-                <div class="flex justify-between text-xs text-gray-500 mt-2">
-                    <span>Weak</span>
-                    <span id="signalQuality" class="text-gray-400">--</span>
-                    <span>Strong</span>
+                    <div class="flex justify-between text-xs theme-text-muted mt-2">
+                        <span>Weak</span>
+                        <span id="signalQuality" class="theme-text-muted">--</span>
+                        <span>Strong</span>
+                    </div>
+                </div>
+
+                <!-- Data Stats -->
+                <div class="pt-6 border-t theme-border">
+                    <div class="grid grid-cols-2 gap-6">
+                        <div>
+                            <span class="theme-text-muted text-xs block mb-2 uppercase tracking-wider font-semibold">MESSAGES RECEIVED</span>
+                            <span id="msgCount" class="text-2xl md:text-3xl font-bold tracking-tight theme-text-primary">0</span>
+                        </div>
+                        <div>
+                            <span class="theme-text-muted text-xs block mb-2 uppercase tracking-wider font-semibold">SESSION DURATION</span>
+                            <span id="sessionTime" class="text-2xl md:text-3xl font-bold tracking-tight theme-text-primary">00:00</span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Data Stats -->
-            <div class="pt-4 border-t border-gray-700">
-                <div class="grid grid-cols-2 gap-4 text-center">
-                    <div>
-                        <span class="text-gray-400 text-xs block">Messages Received</span>
-                        <span id="msgCount" class="text-2xl font-bold text-white">0</span>
-                    </div>
-                    <div>
-                        <span class="text-gray-400 text-xs block">Session Duration</span>
-                        <span id="sessionTime" class="text-2xl font-bold text-white">00:00</span>
+            <!-- Temperature Monitoring (Right Column) -->
+            <div class="glass-card p-6 md:p-8">
+                <p class="text-[10px] font-medium uppercase tracking-[0.2em] theme-text-muted mb-2">TEMPERATURE MONITORING</p>
+                <h2 class="text-xl md:text-2xl font-semibold mb-6 tracking-tight theme-text-primary">Temperature</h2>
+                <div class="flex justify-center">
+                    <div class="text-center">
+                        <div class="gauge-container mx-auto" style="width: 200px; height: 200px;">
+                            <svg viewBox="0 0 200 200" class="w-full h-full">
+                                <circle cx="100" cy="100" r="80" fill="none" stroke="#e5e7eb" stroke-width="14"/>
+                                <circle id="tempGauge" cx="100" cy="100" r="80" fill="none"
+                                    stroke="#22c55e" stroke-width="14" stroke-linecap="round"
+                                    stroke-dasharray="502.65" stroke-dashoffset="502.65"
+                                    style="transform: rotate(-90deg); transform-origin: center; transition: stroke-dashoffset 0.5s ease, stroke 0.3s ease;"/>
+                                <text x="100" y="90" text-anchor="middle" class="text-4xl font-bold" style="fill: #0a0a0a;">
+                                    <tspan id="tempValue">0.0</tspan>
+                                </text>
+                                <text x="100" y="115" text-anchor="middle" class="text-sm" style="fill: #6b7280;">°C</text>
+                                <text x="100" y="140" text-anchor="middle" class="text-xs font-medium" style="fill: #3b82f6;">Machine Temp</text>
+                            </svg>
+                        </div>
+                        <div class="mt-4 flex justify-center gap-8 text-sm">
+                            <div class="text-center">
+                                <span class="theme-text-muted block text-xs uppercase tracking-wider mb-1">MIN</span>
+                                <span id="tempMin" class="theme-text-primary font-semibold">-°C</span>
+                            </div>
+                            <div class="text-center">
+                                <span class="theme-text-muted block text-xs uppercase tracking-wider mb-1">MAX</span>
+                                <span id="tempMax" class="theme-text-primary font-semibold">-°C</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -608,109 +634,59 @@ body {
     </div>
 
     <!-- Charts Section -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 mb-4 md:mb-6">
-        <!-- Vibration Trend Chart -->
-        <div class="glass-card rounded-xl p-4 md:p-6">
-            <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
-                <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/>
-                </svg>
-                Vibration Trend
-            </h2>
+    <div class="mx-auto max-w-6xl px-6 mb-6">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Vibration Trend Chart -->
+            <div class="glass-card p-6 md:p-8">
+                <p class="text-[10px] font-medium uppercase tracking-[0.2em] theme-text-muted mb-4">Trend Analysis</p>
+                <h2 class="text-xl md:text-2xl font-semibold mb-6 tracking-tight theme-text-primary">Vibration Trend</h2>
             <div class="chart-container">
                 <canvas id="vibrationChart"></canvas>
             </div>
         </div>
 
-        <!-- Temperature Trend Chart -->
-        <div class="glass-card rounded-xl p-4 md:p-6">
-            <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
-                <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/>
-                </svg>
-                Temperature Trend
-            </h2>
+            <!-- Temperature Trend Chart -->
+            <div class="glass-card p-6 md:p-8">
+                <p class="text-[10px] font-medium uppercase tracking-[0.2em] theme-text-muted mb-4">Trend Analysis</p>
+                <h2 class="text-xl md:text-2xl font-semibold mb-6 tracking-tight theme-text-primary">Temperature Trend</h2>
             <div class="chart-container">
                 <canvas id="temperatureChart"></canvas>
             </div>
         </div>
     </div>
 
-    <!-- Raw Messages Log -->
-    <div class="glass-card rounded-xl p-4 md:p-6">
-        <div class="flex justify-between items-center mb-4">
-            <h2 class="text-lg font-semibold flex items-center gap-2">
-                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                </svg>
-                Message Log
-            </h2>
-            <button onclick="clearLog()" class="text-sm text-gray-400 hover:text-white transition-colors">
-                Clear Log
-            </button>
         </div>
+    </div>
+
+    <!-- Raw Messages Log -->
+    <div class="mx-auto max-w-6xl px-6 mb-6">
+        <div class="glass-card p-6 md:p-8">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <p class="text-[10px] font-medium uppercase tracking-[0.2em] theme-text-muted mb-2">Message Log</p>
+                    <h2 class="text-xl md:text-2xl font-semibold tracking-tight theme-text-primary">Raw Messages</h2>
+                </div>
+                <button onclick="clearLog()" class="text-sm font-medium theme-text-muted hover:theme-text-primary transition-colors">
+                    Clear Log
+                </button>
+            </div>
         <div id="messageLog" class="theme-log rounded-lg p-3 md:p-4 h-40 md:h-48 overflow-y-auto font-mono text-xs theme-text-secondary space-y-1">
             <p class="theme-text-muted">Waiting for messages...</p>
         </div>
     </div>
 
     <!-- Footer -->
-    <footer class="mt-6 text-center theme-text-muted text-sm">
+    <footer class="mx-auto max-w-6xl px-6 mt-12 mb-6 text-center theme-text-muted text-xs">
         <p>Primatronic SRL - Erbessd Phantom EPH-V11E Monitoring Dashboard</p>
     </footer>
 
     <script>
         // =============================================
-        // Theme Management
+        // Chart Theme (Always Light)
         // =============================================
-        let isDarkTheme = true;
-
-        function toggleTheme() {
-            isDarkTheme = !isDarkTheme;
-            applyTheme();
-            localStorage.setItem('theme', isDarkTheme ? 'dark' : 'light');
-        }
-
-        function applyTheme() {
-            const html = document.documentElement;
-            const body = document.body;
-            const moonIcon = document.getElementById('moonIcon');
-            const sunIcon = document.getElementById('sunIcon');
-            const themeToggle = document.getElementById('themeToggle');
-            const themeLabel = themeToggle ? themeToggle.querySelector('span') : null;
-
-            if (isDarkTheme) {
-                html.classList.remove('light-theme');
-                body.classList.remove('light-theme');
-                if (moonIcon) moonIcon.classList.remove('hidden');
-                if (sunIcon) sunIcon.classList.add('hidden');
-                if (themeLabel) themeLabel.textContent = 'Dark Mode';
-            } else {
-                html.classList.add('light-theme');
-                body.classList.add('light-theme');
-                if (moonIcon) moonIcon.classList.add('hidden');
-                if (sunIcon) sunIcon.classList.remove('hidden');
-                if (themeLabel) themeLabel.textContent = 'Light Mode';
-            }
-
-            // Update charts with new theme colors
-            updateChartsTheme();
-        }
-
-        function loadTheme() {
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme) {
-                isDarkTheme = savedTheme === 'dark';
-            } else {
-                // Default to dark mode
-                isDarkTheme = true;
-            }
-            applyTheme();
-        }
-
         function updateChartsTheme() {
-            const gridColor = isDarkTheme ? 'rgba(148, 163, 184, 0.1)' : 'rgba(0, 0, 0, 0.08)';
-            const textColor = isDarkTheme ? '#94a3b8' : '#374151';
+            const gridColor = 'rgba(0, 0, 0, 0.08)';
+            const textColor = '#6b7280';
 
             // Update vibration chart
             if (typeof vibrationChart !== 'undefined') {
@@ -747,10 +723,10 @@ body {
             topics: ['Primatronic/Vibrations']
         };
 
-        // ISO 10816 Thresholds (mm/s)
+        // ISO 10816 Thresholds (mm/s) - Updated to match image
         const ISO_THRESHOLDS = {
             good: 1.1,
-            satisfactory: 2.8,
+            satisfactory: 2.3,
             unsatisfactory: 7.1
         };
 
@@ -823,10 +799,10 @@ body {
                 return;
             }
             container.innerHTML = pendingTopics.map((topic, index) => `
-                <span class="topic-tag inline-flex items-center gap-1 px-3 py-1 bg-blue-600/30 text-blue-300 rounded-full text-sm">
-                    <span class="font-mono">${escapeHtml(topic)}</span>
-                    <button onclick="removeTopic(${index})" class="ml-1 hover:text-white">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <span class="topic-tag inline-flex items-center gap-1.5 px-3 py-1.5 bg-foreground/5 border border-ring rounded-full text-sm theme-text-primary">
+                    <span class="font-mono text-xs">${escapeHtml(topic)}</span>
+                    <button onclick="removeTopic(${index})" class="ml-1 hover:opacity-70 transition-opacity">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                         </svg>
                     </button>
@@ -996,9 +972,9 @@ body {
             if (value < ISO_THRESHOLDS.good) {
                 return { status: 'Good', color: '#22c55e', bgClass: 'bg-green-500/20', textClass: 'text-green-400' };
             } else if (value < ISO_THRESHOLDS.satisfactory) {
-                return { status: 'Satisfactory', color: '#eab308', bgClass: 'bg-yellow-500/20', textClass: 'text-yellow-400' };
+                return { status: 'Satisfactory', color: '#f97316', bgClass: 'bg-orange-500/20', textClass: 'text-orange-400' };
             } else if (value < ISO_THRESHOLDS.unsatisfactory) {
-                return { status: 'Unsatisfactory', color: '#f97316', bgClass: 'bg-orange-500/20', textClass: 'text-orange-400' };
+                return { status: 'Unsatisfactory', color: '#ea580c', bgClass: 'bg-orange-600/20', textClass: 'text-orange-500' };
             } else {
                 return { status: 'Danger', color: '#ef4444', bgClass: 'bg-red-500/20', textClass: 'text-red-400' };
             }
@@ -1022,6 +998,19 @@ body {
             statusEl.className = `mt-2 text-xs font-medium px-3 py-1 rounded-full ${isoStatus.bgClass} ${isoStatus.textClass} inline-block`;
         }
 
+        function getTemperatureColor(temp) {
+            // Similar color scheme to vibration gauges
+            if (temp < 20) {
+                return '#3b82f6'; // Blue - Cold
+            } else if (temp < 40) {
+                return '#22c55e'; // Green - Normal
+            } else if (temp < 60) {
+                return '#a855f7'; // Purple - Warm
+            } else {
+                return '#ef4444'; // Red - Hot
+            }
+        }
+
         function updateTemperatureGauge(temp) {
             const gauge = document.getElementById('tempGauge');
             const valueEl = document.getElementById('tempValue');
@@ -1031,7 +1020,10 @@ body {
             const circumference = 502.65; // 2 * PI * 80
             const offset = circumference * (1 - percentage * 0.75); // Use 3/4 of circle
 
+            // Use color scheme similar to vibration gauges
+            const tempColor = getTemperatureColor(temp);
             gauge.style.strokeDashoffset = offset;
+            gauge.style.stroke = tempColor;
             valueEl.textContent = temp.toFixed(1);
 
             // Update min/max
@@ -1104,7 +1096,8 @@ body {
         }
 
         function updateCharts(timestamp, rms, temperature) {
-            const time = new Date(timestamp * 1000);
+            // Use current time instead of message timestamp to start fresh from app open
+            const time = new Date();
 
             // Update vibration history
             vibrationHistory.timestamps.push(time);
@@ -1323,6 +1316,8 @@ body {
             messageCount++;
             document.getElementById('msgCount').textContent = messageCount;
 
+            console.log('Processing message data:', data);
+
             // Show device info
             if (data.friendlyName || data.phantomCode) {
                 document.getElementById('deviceInfo').classList.remove('hidden');
@@ -1334,30 +1329,40 @@ body {
 
             // Update vibration gauges
             if (data.rms && Array.isArray(data.rms) && data.rms.length >= 3) {
+                console.log('Updating vibration gauges:', data.rms);
                 updateGauge('gaugeX', 'valueX', 'statusX', data.rms[0]);
                 updateGauge('gaugeY', 'valueY', 'statusY', data.rms[1]);
                 updateGauge('gaugeZ', 'valueZ', 'statusZ', data.rms[2]);
             }
 
             // Update temperature
-            if (data.temperature !== undefined) {
+            if (data.temperature !== undefined && data.temperature !== null) {
+                console.log('Updating temperature:', data.temperature);
                 updateTemperatureGauge(data.temperature);
+            } else {
+                console.log('Temperature data missing or invalid:', data.temperature);
             }
 
             // Update battery
-            if (data.battery !== undefined) {
+            if (data.battery !== undefined && data.battery !== null) {
+                console.log('Updating battery:', data.battery);
                 updateBattery(data.battery);
+            } else {
+                console.log('Battery data missing or invalid:', data.battery);
             }
 
             // Update signal
-            if (data.rssi !== undefined) {
+            if (data.rssi !== undefined && data.rssi !== null) {
+                console.log('Updating RSSI:', data.rssi);
                 updateSignal(data.rssi);
+            } else {
+                console.log('RSSI data missing or invalid:', data.rssi);
             }
 
-            // Update charts
+            // Update charts (using current time, not message timestamp)
             if (data.rms && data.temperature !== undefined) {
-                const timestamp = data.timestamp || Math.floor(Date.now() / 1000);
-                updateCharts(timestamp, data.rms, data.temperature);
+                // Use current time to start fresh from app open, ignore retained message timestamps
+                updateCharts(Date.now(), data.rms, data.temperature);
             }
         }
 
@@ -1524,10 +1529,6 @@ body {
                         sendToMCP({ requestId, success: true, result: tempHistory });
                         break;
 
-                    case 'toggleTheme':
-                        toggleTheme();
-                        sendToMCP({ requestId, success: true, result: { theme: isDarkTheme ? 'dark' : 'light' } });
-                        break;
 
                     default:
                         sendToMCP({ requestId, success: false, error: 'Unknown command: ' + command.type });
@@ -1576,8 +1577,32 @@ body {
         // Initialization
         // =============================================
         document.addEventListener('DOMContentLoaded', function() {
-            // Load theme first (before anything else renders)
-            loadTheme();
+            // Ensure light theme is always applied
+            document.documentElement.classList.remove('dark-theme');
+            document.body.classList.remove('dark-theme');
+            updateChartsTheme();
+
+            // Clear chart history on page load to start fresh (ignore retained messages)
+            vibrationHistory.timestamps = [];
+            vibrationHistory.x = [];
+            vibrationHistory.y = [];
+            vibrationHistory.z = [];
+            temperatureHistory.timestamps = [];
+            temperatureHistory.values = [];
+            
+            // Clear chart data after charts are initialized
+            setTimeout(() => {
+                if (typeof vibrationChart !== 'undefined') {
+                    vibrationChart.data.datasets[0].data = [];
+                    vibrationChart.data.datasets[1].data = [];
+                    vibrationChart.data.datasets[2].data = [];
+                    vibrationChart.update('none');
+                }
+                if (typeof temperatureChart !== 'undefined') {
+                    temperatureChart.data.datasets[0].data = [];
+                    temperatureChart.update('none');
+                }
+            }, 100);
 
             loadConfig();
 
